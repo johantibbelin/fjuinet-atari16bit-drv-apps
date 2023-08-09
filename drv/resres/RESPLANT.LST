@@ -1,0 +1,18 @@
+INLINE rescode%,92
+scr%=XBIOS(2)
+codes%=scr%-&H800
+LPOKE codes%,&H12123456
+LPOKE codes%+4,codes%
+FOR i%=0 TO 91
+  POKE codes%+8+i%,PEEK(rescode%+i%)
+NEXT i%
+fill%=codes%+8+91
+b%=512-8-91
+FOR i%=fill% TO fill%+b%
+  POKE i%,0
+NEXT i%
+checksum%=0
+FOR i%=codes% TO codes%+512 STEP 2
+  checksum%=checksum%+DPEEK(i%)
+NEXT i%
+PRINT HEX$(checksum%)
