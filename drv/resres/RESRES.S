@@ -27,13 +27,12 @@ install:
 
 	sub.l #$800,a0
 
-	
 
 resres:
 magic:	dc.l $12123456
 adr:	dc.l $0
 code:	move.l text(pc),-(sp)
-	move.w #7,-(sp)
+	move.w #9,-(sp)
 	trap #1
 	addq.l #6,sp
 	rts
