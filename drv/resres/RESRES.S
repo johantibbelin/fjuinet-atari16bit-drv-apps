@@ -1,4 +1,11 @@
-;**---- EQs
+;---------------------------------
+; Test of Reset resident function
+;
+; Written by: Johan Tibbelin(sjfroos)
+;
+
+
+;**---- EQUs
 
 memtop	= $436
 membot	= $432
