@@ -1,0 +1,28 @@
+'
+' Disk code written for Fujinet Atari 16bit
+'
+' Disk image explorer, drivers and more
+'
+' ------------------------------------
+' Inline data
+' ------------------------------------
+' ASM routines
+INLINE asm%,2048
+' ------------------------------------
+CLS
+low
+END
+PROCEDURE low
+  LOCAL scr%
+  scr%=XBIOS(2)
+  ~XBIOS(5,L:scr%,L:scr%,0)
+  SETCOLOR 3,&H520
+  CLS
+RETURN
+PROCEDURE medium
+  LOCAL scr%
+  scr%=XBIOS(2)
+  ~XBIOS(5,L:scr%,L:scr%,1)
+  SETCOLOR 3,&H0
+  CLS
+RETURN
