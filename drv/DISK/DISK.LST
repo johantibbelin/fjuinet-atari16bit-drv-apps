@@ -26,3 +26,7 @@ PROCEDURE medium
   SETCOLOR 3,&H0
   CLS
 RETURN
+PROCEDURE diskimg_load
+  FILESELECT "*.st","",file$
+  PRINT file$
+RETURN
