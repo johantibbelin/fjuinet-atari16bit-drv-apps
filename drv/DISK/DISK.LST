@@ -12,6 +12,7 @@ INLINE asm%,2048
 RESERVE 100000
 CLS
 diskimg_load
+diskimg_unload
 RESERVE
 END
 PROCEDURE low
@@ -38,6 +39,9 @@ PROCEDURE diskimg_load
   ENDIF
   PRINT "$";HEX$(dimg%)
   BLOAD file$,dimg%
-  ~FRE(dimg%)
+  '  ~MFREE(dimg%)
 ret:
+RETURN
+PROCEDURE diskimg_unload
+  ~MFREE(dimg%)
 RETURN
