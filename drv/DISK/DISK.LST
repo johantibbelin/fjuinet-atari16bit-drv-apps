@@ -20,6 +20,7 @@ PROCEDURE low
   scr%=XBIOS(2)
   ~XBIOS(5,L:scr%,L:scr%,0)
   SETCOLOR 3,&H520
+  SETCOLOR 15,&H0
   CLS
 RETURN
 PROCEDURE medium
