@@ -1,0 +1,47 @@
+INLINE pic%,32034
+BMOVE pic%+34,XBIOS(2),32000
+DIM pic_med%(32034/4)
+FOR i%=0 TO 32034/4
+  pic_med%(i%)=0
+NEXT i%
+med%=V:pic_med%(0)
+medium
+BMOVE pic%+34,XBIOS(2),32000
+FOR line%=0 TO 199 STEP 2
+  medp%=med%+(line%)*160
+  picp%=(pic%+34)+(line%)*160
+  FOR word%=0 TO 19
+    BMOVE picp%+8*word%,medp%+4*word%,4
+  NEXT word%
+NEXT line%
+BMOVE med%,XBIOS(2),32000
+~INP(2)
+low
+END
+> PROCEDURE old_fix
+  med%=V:pic_med%(0)
+  PRINT "Fixing picture"
+  FOR line%=0 TO 199
+    FOR word%=0 TO 19
+      BMOVE (pic%+34)+line%*160+word%*8,med%+line%*160+word%*8,4
+    NEXT word%
+  NEXT line%
+  PRINT "done!"
+  ~INP(2)
+  BMOVE med%,XBIOS(2),32000
+  ~INP(2)
+RETURN
+PROCEDURE medium
+  LOCAL scr%
+  scr%=XBIOS(2)
+  ~XBIOS(5,L:scr%,L:scr%,1)
+  SETCOLOR 3,&H0
+  CLS
+RETURN
+PROCEDURE low
+  LOCAL scr%
+  scr%=XBIOS(2)
+  ~XBIOS(5,L:scr%,L:scr%,0)
+  SETCOLOR 3,&H700
+  CLS
+RETURN
