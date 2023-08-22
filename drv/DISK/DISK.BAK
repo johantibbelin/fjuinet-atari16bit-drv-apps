@@ -16,7 +16,7 @@ diskimg_examine
 diskimg_unload
 RESERVE
 END
-> PROCEDURE low
+PROCEDURE low
   LOCAL scr%
   scr%=XBIOS(2)
   ~XBIOS(5,L:scr%,L:scr%,0)
@@ -24,7 +24,7 @@ END
   SETCOLOR 15,&H0
   CLS
 RETURN
-> PROCEDURE medium
+PROCEDURE medium
   LOCAL scr%
   scr%=XBIOS(2)
   ~XBIOS(5,L:scr%,L:scr%,1)
@@ -51,29 +51,5 @@ PROCEDURE diskimg_examine
   FOR i%=0 TO 20 STEP 2
     PRINT "$"+HEX$(DPEEK(dimg%+i%))
   NEXT i%
-  ' Print directory
-  CLS
-  skip!=FALSE
-  ddir%=dimg%+&H1600
-  FOR d%=ddir% TO ddir%+(&H20*20) STEP &H20
-    FOR i%=0 TO 10
-      IF i%=0 AND PEEK(d%)=&HE5
-        PRINT "?";
-      ELSE IF i%=0 AND PEEK(d%)=0
-        i%=10
-        skip!=TRUE
-      ELSE
-        PRINT CHR$(PEEK(d%+i%));
-      ENDIF
-      IF i%=7
-        PRINT ".";
-      ENDIF
-    NEXT i%
-    IF skip!=TRUE
-      skip!=FALSE
-    ELSE
-      PRINT
-    ENDIF
-  NEXT d%
   ~INP(2)
 RETURN
