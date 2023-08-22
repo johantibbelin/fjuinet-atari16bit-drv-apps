@@ -13,6 +13,8 @@ RESERVE 100000
 CLS
 diskimg_load
 diskimg_examine
+diskimg_get_bpb
+~INP(2)
 diskimg_unload
 RESERVE
 END
@@ -75,5 +77,19 @@ PROCEDURE diskimg_examine
       PRINT
     ENDIF
   NEXT d%
+  PRINT "Done."
   ~INP(2)
+RETURN
+PROCEDURE diskimg_get_bpb
+  PRINT "bytes per sector: $"+HEX$(PEEK(dimg%+&HB)+PEEK(dimg%+&HC)*256)
+  PRINT "Sectors per cluster: $"+HEX$(PEEK(dimg%+&HD))
+  PRINT "Reserved sectors: $"+HEX$(PEEK(dimg%+&HE)+PEEK(dimg%+&HF)*256)
+  PRINT "Number of FATs: $"+HEX$(PEEK(dimg%+&H10))
+  PRINT "NDIRS: $"+HEX$(PEEK(dimg%+&H11)+PEEK(dimg%+&H12)*256)
+  PRINT "Number of sectors: $"+HEX$(PEEK(dimg%+&H13)+PEEK(dimg%+&H14)*256)
+  PRINT "MEDIA: $"+HEX$(PEEK(dimg%+&H15))
+  PRINT "sectors per FAT: $"+HEX$(PEEK(dimg%+&H16)+PEEK(dimg%+&H17)*256)
+  PRINT "Sectors per track: $";HEX$(+PEEK(dimg%+&H18)+PEEK(dimg%+&H19)*256)
+  PRINT "Number of heads: $"+HEX$(PEEK(dimg%+&H1A)+PEEK(dimg%+&H1B)*256)
+  PRINT "NHID: $"+HEX$(PEEK(dimg%+&H1C)+PEEK(dimg%+&H1D)*256)
 RETURN
