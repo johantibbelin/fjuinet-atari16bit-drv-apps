@@ -37,7 +37,7 @@ PROCEDURE diskimg_load
   FILESELECT "I:\*.st","",file$
   PRINT file$
   dimg%=MALLOC(82*10*512*2)
-  IF dimg%<0
+  IF dimg%<=0
     PRINT "not enough ram!"
     GOTO ret
   ENDIF
