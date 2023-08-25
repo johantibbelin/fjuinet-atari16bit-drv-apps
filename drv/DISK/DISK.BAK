@@ -9,6 +9,10 @@
 ' ASM routines
 INLINE asm%,2048
 ' ------------------------------------
+' Global Variables
+' ------------------------------------
+DIM bpb|(40)
+'
 RESERVE 100000
 CLS
 diskimg_load
