@@ -11,7 +11,7 @@ INLINE asm%,2048
 ' ------------------------------------
 ' Global Variables
 ' ------------------------------------
-DIM bpb|(40)
+DIM bpb&(9)
 '
 RESERVE 100000
 CLS
@@ -97,3 +97,33 @@ PROCEDURE diskimg_get_bpb
   PRINT "Number of heads: $"+HEX$(PEEK(dimg%+&H1A)+PEEK(dimg%+&H1B)*256)
   PRINT "NHID: $"+HEX$(PEEK(dimg%+&H1C)+PEEK(dimg%+&H1D)*256)
 RETURN
+FUNCTION get_bpb
+  ' ------------------------------
+  ' Returns address to
+  ' BIOS parameter block
+  ' Data taken from boot sector of
+  ' Disk image
+  '
+  LOCAL bpb%
+  bpb%=V:bpb&(0)
+  ' Bytes per sector (recsiz)
+  bpb&(0)=PEEK(dimg%+&HB)+PEEK(dimg%+&HC)*256
+  ' Sectors per cluster (clsiz)
+  bpb&(1)=PEEK(dimg%+&HD)
+  ' Bytes per cluster (clsizb)
+  bpb&(2)=bpb&(0)*bpb&(1)
+  ' Directory length (rdlen)
+  bpb&(3)=PEEK(dimg%+&H11)+PEEK(dimg%+&H12)*256
+  ' Length of FAT in sectors (fsiz)
+  bpb&(4)=PEEK(dimg%+&H16)+PEEK(dimg%+&H17)*256
+  ' Start of 2nd FAT (fatrec)
+  pbp&(5)=bpb&(4)+1
+  ' First free sector
+  bpb&(6)=1+bpb&(4)*2+(bpb&(3)*&H20)/bpb&(0)
+  ' Number of Clusters (numcl)
+  LOCAL sectors%,clusters%
+  sectors%=PEEK(dimg%+&H13)+PEEK(dimg%+&H14)*256
+  clusters%=sectors%-bpb&(6)/2
+  bpb&(7)=clusters%
+  RETURN bpb%
+ENDFUNC
